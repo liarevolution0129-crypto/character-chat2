@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111318">
+<title>세계관 채팅</title>
+<style>
+:root{--bg:#101116;--panel:#191b23;--panel2:#222530;--line:#30333e;--text:#f4f4f7;--muted:#a6a9b5;--accent:#a6a0ff;--accent2:#d6d2ff;--danger:#ff929c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:10px 12px}button.primary{background:var(--accent);color:#171522;border-color:transparent;font-weight:700}button.danger{color:var(--danger)}button:disabled{opacity:.45;cursor:default}input,textarea,select{width:100%;background:#11131a;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--text);outline:none}textarea{min-height:90px;resize:vertical;line-height:1.45}label{display:block;color:var(--muted);font-size:12px;margin:10px 0 5px}.app{max-width:900px;margin:auto;min-height:100dvh;display:flex;flex-direction:column}.top{position:sticky;top:0;z-index:3;background:#101116ed;backdrop-filter:blur(12px);padding:15px 14px 10px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}.brand h1{font-size:19px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.tabs{display:flex;gap:6px;overflow:auto;margin-top:13px;padding-bottom:2px}.tabs button{white-space:nowrap;flex:1;padding:9px 10px}.tabs button.active{background:var(--accent);color:#171522;border-color:transparent;font-weight:700}.status{font-size:12px;color:var(--muted);margin-top:8px}.status strong{color:var(--accent2)}main{padding:14px;flex:1}.page{display:none}.page.active{display:block}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}.row .grow{flex:1}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.sectionhead h2{font-size:17px;margin:0}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.stack{display:grid;gap:9px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.item{display:flex;align-items:center;gap:10px;text-align:left;width:100%;padding:12px;background:#151720}.item.selected{border-color:var(--accent);background:#242238}.avatar{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;background:#34304f;font-size:19px}.itemtext{flex:1;min-width:0}.itemtext strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.itemtext small{display:block;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:3px}.empty{padding:24px 10px;text-align:center;color:var(--muted)}.chatbox{display:flex;flex-direction:column;gap:10px;min-height:38vh}.bubble{max-width:94%;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#1b1d26;align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}.bubble.user{align-self:flex-end;background:#302e49;border-color:#514b7c}.bubble .who{font-size:11px;color:var(--accent2);margin-bottom:5px;font-weight:700}.bubble .tools{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}.bubble .tools button{font-size:12px;padding:6px 8px}.compose{position:sticky;bottom:0;background:#101116ed;padding:10px 0 max(10px,env(safe-area-inset-bottom));backdrop-filter:blur(10px)}.compose textarea{min-height:60px;max-height:180px}.hint{background:#252334;border:1px solid #45405f;border-radius:12px;padding:10px;font-size:12px;color:#d7d2ff;line-height:1.45;margin-bottom:10px}.hidden{display:none!important}.footer{padding:0 14px 18px;color:var(--muted);font-size:11px}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:var(--muted)}.modalback{position:fixed;inset:0;background:#0009;z-index:10;display:flex;align-items:flex-end;justify-content:center}.modal{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px;width:min(900px,100%);max-height:88dvh;overflow:auto}.modal h2{margin:0 0 8px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:20;background:#f4f4f7;color:#111;padding:10px 15px;border-radius:999px;box-shadow:0 5px 20px #0006;font-size:13px;max-width:90vw}.checkline{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin-top:10px}.checkline input{width:auto}
+@media(min-width:700px){main{padding:20px}.chatbox{min-height:48vh}.modalback{align-items:center}.modal{border-radius:20px}.grid2{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div><h1>✦ 세계관 채팅</h1><div class="sub">캐릭터 · 엑스트라 · 세계관 · 롤플레잉</div></div><button id="exportBtn">내보내기</button></div>
+ <div class="tabs" id="tabs">
+  <button class="active" data-page="chat">채팅</button><button data-page="characters">인물</button><button data-page="user">유저 설정</button><button data-page="world">세계관</button><button data-page="data">데이터</button>
+ </div>
+ <div class="status" id="status">저장 위치: <strong>이 기기 브라우저</strong> · AI 모델 미연결</div>
+</header>
+<main>
+<section class="page active" id="page-chat">
+ <div class="card">
+  <div class="sectionhead"><h2>현재 대화</h2><span class="pill" id="chatCount">0개 메시지</span></div>
+  <label>대화방</label><div class="row"><select id="chatSelect" class="grow"></select><button id="newChat">＋ 새 대화</button></div>
+  <label>대화에 참여할 인물</label><select id="speakerSelect"></select>
+  <div class="small" style="margin-top:8px">캐릭터 설정과 유저 프로필, 관련 세계관을 답변 생성에 참고하도록 구성되어 있어.</div>
+ </div>
+ <div class="card">
+  <div class="sectionhead"><h2>무료 로컬 AI</h2><span class="pill" id="modelState">연결 전</span></div>
+  <p class="small" style="line-height:1.5;margin-top:0">AI 모델을 이 기기에 내려받아 브라우저에서 실행해. 유료 API 키는 필요 없어. 첫 다운로드는 수백 MB 이상일 수 있고, Safari/WebGPU 지원 여부와 기기 메모리에 따라 실행되지 않을 수도 있어.</p>
+  <div class="row"><button class="primary grow" id="loadModelBtn">AI 모델 불러오기</button><button id="stopModelBtn" disabled>중지</button></div>
+  <div class="small" id="modelProgress" style="margin-top:8px">모델을 불러오면 실제 AI 답변 생성과 답변 재생성이 활성화돼.</div>
+ </div>
+ <div class="hint" id="aiHint">AI 답변은 선택한 캐릭터, 유저 프로필, 세계관 문서, 최근 대화를 참고해 생성돼. 데이터는 이 브라우저에 저장되며, 모델 다운로드를 위해 모델 파일 제공 서버에 연결해.</div>
+ <div class="chatbox" id="messages"></div>
+ <div class="compose">
+  <textarea id="messageInput" placeholder="메시지를 입력해 봐… (예: *교실 문을 열고 들어간다*)"></textarea>
+  <div class="row" style="margin-top:8px"><button id="contextBtn" class="grow">현재 설정 보기</button><button id="sendBtn" class="primary">보내기</button></div>
+  <div class="small" style="margin-top:7px">AI 모델이 준비되면 실제 답변을 생성해. 모델이 준비되지 않았다면 메시지는 저장하지 않고 안내해.</div>
+ </div>
+</section>
+<section class="page" id="page-characters">
+ <div class="sectionhead"><h2>인물 관리</h2><button class="primary" id="addCharacter">＋ 인물 추가</button></div>
+ <div class="grid2">
+  <div class="card"><div class="sectionhead"><h2>등록된 인물</h2><span class="pill" id="charCount">0명</span></div><div id="characterList" class="stack"></div></div>
+  <div class="card"><h2 style="font-size:17px;margin:0">인물 편집</h2><div id="characterEditor" class="muted small" style="margin-top:8px">인물을 선택하거나 새로 추가해.</div></div>
+ </div>
+</section>
+<section class="page" id="page-user">
+ <div class="card"><div class="sectionhead"><h2>유저 프로필</h2><button class="primary" id="saveUser">저장</button></div>
+  <label>이름 / 별칭</label><input id="uName" placeholder="예: 서윤">
+  <div class="grid2"><div><label>나이</label><input id="uAge" placeholder="예: 17"></div><div><label>성별 / 호칭</label><input id="uGender" placeholder="원하는 설정"></div></div>
+  <label>외모</label><textarea id="uLook" placeholder="머리색, 눈, 옷차림 등"></textarea>
+  <label>성격과 말투</label><textarea id="uPersonality" placeholder="성격, 말투, 행동 방식"></textarea>
+  <label>배경 / 능력 / 소지품</label><textarea id="uExtra" placeholder="과거, 능력, 소지품, 현재 목표 등"></textarea>
+  <label>인물들과의 관계</label><textarea id="uRelations" placeholder="각 인물과 어떤 관계인지"></textarea>
+ </div>
+</section>
+<section class="page" id="page-world">
+ <div class="sectionhead"><h2>세계관 문서</h2><button class="primary" id="addWorld">＋ 문서 추가</button></div>
+ <div class="grid2"><div class="card"><h2 style="font-size:17px;margin:0 0 10px">문서 목록</h2><div id="worldList" class="stack"></div></div><div class="card"><h2 style="font-size:17px;margin:0">문서 편집</h2><div id="worldEditor" class="muted small" style="margin-top:8px">문서를 선택하거나 추가해.</div></div></div>
+ <div class="hint">세계관 원문은 가능한 한 많이 저장할 수 있지만, 언어 모델이 한 번에 읽고 참고할 수 있는 양에는 한계가 있어. 나중에 현재 장면과 관련된 문서를 골라 전달하는 방식으로 연결하면 좋아.</div>
+</section>
+<section class="page" id="page-data">
+ <div class="card"><h2 style="margin-top:0">백업과 복원</h2><p class="muted">인물, 유저 설정, 세계관 문서, 대화방을 JSON 파일로 내보내거나 다시 가져올 수 있어.</p><div class="actions"><button class="primary" id="exportBtn2">JSON 내보내기</button><button id="importBtn">JSON 가져오기</button><input id="importFile" type="file" accept=".json,application/json" class="hidden"></div></div>
+ <div class="card"><h2 style="margin-top:0">무료 AI 연결 안내</h2><p>이 파일에는 유료 API 키가 포함되어 있지 않아. AI 응답 생성 기능을 실제로 쓰려면 브라우저에서 직접 실행되는 호환 모델을 연결해야 해. 아이폰 Safari에서는 모델 다운로드 용량, 메모리, WebGPU 지원에 따라 실행이 느리거나 실패할 수 있어.</p><p class="small">대화 재생성·메시지 수정 UI는 포함되어 있어. 모델을 연결하기 전에는 실제 AI가 답변을 생성하지 않아.</p></div>
+ <div class="card"><h2 style="margin-top:0">모든 데이터 초기화</h2><p class="muted">초기화하면 이 브라우저에 저장된 설정과 대화가 삭제돼. 먼저 백업하는 걸 권장해.</p><button class="danger" id="clearAll">모든 데이터 삭제</button></div>
+</section>
+</main>
+<div class="footer">이 앱은 현재 브라우저에 데이터를 저장해. 다른 기기나 다른 브라우저에는 자동으로 동기화되지 않아. 중요한 설정은 JSON으로 백업해 둬.</div>
+</div>
+<div id="modalRoot"></div><div id="toast" class="toast hidden"></div>
+<script>
+const KEY='worldChatApp_v1';
+const blank=()=>({characters:[],user:{name:'',age:'',gender:'',look:'',personality:'',extra:'',relations:''},worlds:[],chats:[],currentChat:null});
+let state=load(), selectedCharacter=null, selectedWorld=null;
+let aiEngine=null, aiLoading=false, generationBusy=false, loadAbort=false;
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&x.chats?x:blank()}catch{return blank()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));renderStatus()}catch(e){toast('저장 공간이 부족할 수 있어. JSON으로 백업해 줘.')}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){const t=document.getElementById('toast');t.textContent=s;t.classList.remove('hidden');setTimeout(()=>t.classList.add('hidden'),2400)}
+function currentChat(){return state.chats.find(c=>c.id===state.currentChat)}
+function ensureChat(){if(!state.chats.length){const c={id:uid(),title:'새 대화',messages:[],created:Date.now()};state.chats.push(c);state.currentChat=c.id}if(!currentChat())state.currentChat=state.chats[0].id}
+function renderStatus(){document.getElementById('status').innerHTML='저장 위치: <strong>이 기기 브라우저</strong> · '+(aiEngine?'<strong>로컬 AI 연결됨</strong>':aiLoading?'<strong>AI 모델 불러오는 중</strong>':'AI 모델 미연결');const ms=document.getElementById('modelState');if(ms)ms.textContent=aiEngine?'연결됨':aiLoading?'불러오는 중':'연결 전';const lb=document.getElementById('loadModelBtn');if(lb){lb.disabled=!!aiEngine||aiLoading;lb.textContent=aiEngine?'AI 연결 완료':aiLoading?'불러오는 중…':'AI 모델 불러오기'}const sb=document.getElementById('stopModelBtn');if(sb)sb.disabled=!aiLoading;const send=document.getElementById('sendBtn');if(send){send.disabled=generationBusy;send.textContent=generationBusy?'답변 생성 중…':'보내기'}}
+function go(page){document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page))}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function renderChatSelect(){ensureChat();const sel=document.getElementById('chatSelect');sel.innerHTML=state.chats.map(c=>`<option value="${c.id}" ${c.id===state.currentChat?'selected':''}>${esc(c.title||'새 대화')}</option>`).join('');const sp=document.getElementById('speakerSelect');sp.innerHTML=state.characters.map(c=>`<option value="${c.id}">${esc(c.name||'이름 없는 인물')}${c.type==='extra'?' · 엑스트라':''}</option>`).join('');if(!state.characters.length)sp.innerHTML='<option value="">인물 없음 — 인물 탭에서 추가</option>'}
+function renderMessages(){ensureChat();const c=currentChat(),root=document.getElementById('messages');document.getElementById('chatCount').textContent=c.messages.length+'개 메시지';if(!c.messages.length){root.innerHTML='<div class="empty">아직 대화가 없어.<br>아래에 첫 메시지를 적어 봐.</div>';return}root.innerHTML=c.messages.map((m,i)=>`<div class="bubble ${m.role==='user'?'user':''}"><div class="who">${esc(m.name|| (m.role==='user'?'유저':'캐릭터'))}</div><div>${esc(m.text)}</div><div class="tools"><button data-edit="${i}">수정</button>${m.role==='assistant'?`<button data-regen="${i}">다시 생성</button>`:''}<button data-del="${i}">삭제</button></div></div>`).join('');root.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editMessage(+b.dataset.edit));root.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('이 메시지를 삭제할까?')){currentChat().messages.splice(+b.dataset.del,1);save();renderMessages()}});root.querySelectorAll('[data-regen]').forEach(b=>b.onclick=()=>{if(!aiEngine){toast('먼저 AI 모델을 불러와 줘.');return}generateReply({replaceIndex:+b.dataset.regen})})}
+function renderCharacters(){const root=document.getElementById('characterList');document.getElementById('charCount').textContent=state.characters.length+'명';root.innerHTML=state.characters.length?state.characters.map(c=>`<button class="item ${selectedCharacter===c.id?'selected':''}" data-char="${c.id}"><span class="avatar">${c.type==='extra'?'✧':'✦'}</span><span class="itemtext"><strong>${esc(c.name||'이름 없는 인물')}</strong><small>${c.type==='extra'?'엑스트라 / NPC':'주요 캐릭터'} · ${esc(c.personality||'성격 미설정')}</small></span></button>`).join(''):'<div class="empty">아직 인물이 없어.</div>';root.querySelectorAll('[data-char]').forEach(b=>b.onclick=()=>{selectedCharacter=b.dataset.char;renderCharacters();renderCharacterEditor()});renderCharacterEditor()}
+function renderCharacterEditor(){const root=document.getElementById('characterEditor'),c=state.characters.find(x=>x.id===selectedCharacter);if(!c){root.innerHTML='<p>인물을 선택하거나 새로 추가해.</p>';return}root.innerHTML=`<label>인물 종류</label><select id="cType"><option value="main" ${c.type!=='extra'?'selected':''}>주요 캐릭터</option><option value="extra" ${c.type==='extra'?'selected':''}>엑스트라 / NPC</option></select><label>이름 / 별칭</label><input id="cName" value="${esc(c.name)}" placeholder="이름"><label>나이 / 성별</label><input id="cAge" value="${esc(c.age||'')}" placeholder="나이, 성별"><label>외모</label><textarea id="cLook">${esc(c.look||'')}</textarea><label>성격</label><textarea id="cPersonality">${esc(c.personality||'')}</textarea><label>말투와 행동 방식</label><textarea id="cVoice">${esc(c.voice||'')}</textarea><label>배경 / 과거 / 목표</label><textarea id="cBackground">${esc(c.background||'')}</textarea><label>비밀 / 능력 / 소지품</label><textarea id="cSecrets">${esc(c.secrets||'')}</textarea><label>유저 및 다른 인물과의 관계</label><textarea id="cRelations">${esc(c.relations||'')}</textarea><div class="actions"><button class="primary" id="saveChar">인물 저장</button><button class="danger" id="deleteChar">삭제</button></div>`;document.getElementById('saveChar').onclick=()=>{Object.assign(c,{type:val('cType'),name:val('cName'),age:val('cAge'),look:val('cLook'),personality:val('cPersonality'),voice:val('cVoice'),background:val('cBackground'),secrets:val('cSecrets'),relations:val('cRelations')});save();renderCharacters();renderChatSelect();toast('인물 설정을 저장했어.')};document.getElementById('deleteChar').onclick=()=>{if(confirm('이 인물을 삭제할까?')){state.characters=state.characters.filter(x=>x.id!==c.id);selectedCharacter=null;save();renderCharacters();renderChatSelect()}}}
+function val(id){return document.getElementById(id)?.value||''}
+document.getElementById('addCharacter').onclick=()=>{const c={id:uid(),type:'main',name:'새 캐릭터',age:'',look:'',personality:'',voice:'',background:'',secrets:'',relations:''};state.characters.push(c);selectedCharacter=c.id;save();renderCharacters();renderChatSelect()};
+function renderWorlds(){const root=document.getElementById('worldList');root.innerHTML=state.worlds.length?state.worlds.map(w=>`<button class="item ${selectedWorld===w.id?'selected':''}" data-world="${w.id}"><span class="avatar">📖</span><span class="itemtext"><strong>${esc(w.title||'제목 없는 문서')}</strong><small>${esc((w.content||'').slice(0,75)||'내용 없음')}</small></span></button>`).join(''):'<div class="empty">세계관 문서를 추가해 봐.</div>';root.querySelectorAll('[data-world]').forEach(b=>b.onclick=()=>{selectedWorld=b.dataset.world;renderWorlds();renderWorldEditor()});renderWorldEditor()}
+function renderWorldEditor(){const root=document.getElementById('worldEditor'),w=state.worlds.find(x=>x.id===selectedWorld);if(!w){root.innerHTML='<p>문서를 선택하거나 추가해.</p>';return}root.innerHTML=`<label>문서 종류</label><select id="wType">${['세계관 개요','역사','지역 / 국가','조직','사건','규칙','용어 사전','인물 관계','기타'].map(x=>`<option ${w.type===x?'selected':''}>${x}</option>`).join('')}</select><label>문서 제목</label><input id="wTitle" value="${esc(w.title)}" placeholder="예: 왕국의 역사"><label>내용 (길게 작성 가능)</label><textarea id="wContent" style="min-height:260px">${esc(w.content||'')}</textarea><div class="actions"><button class="primary" id="saveWorld">문서 저장</button><button class="danger" id="deleteWorld">삭제</button></div>`;document.getElementById('saveWorld').onclick=()=>{w.type=val('wType');w.title=val('wTitle');w.content=val('wContent');save();renderWorlds();toast('세계관 문서를 저장했어.')};document.getElementById('deleteWorld').onclick=()=>{if(confirm('이 문서를 삭제할까?')){state.worlds=state.worlds.filter(x=>x.id!==w.id);selectedWorld=null;save();renderWorlds()}}}
+document.getElementById('addWorld').onclick=()=>{const w={id:uid(),type:'세계관 개요',title:'새 세계관 문서',content:''};state.worlds.push(w);selectedWorld=w.id;save();renderWorlds()};
+function loadUser(){const u=state.user;[['uName','name'],['uAge','age'],['uGender','gender'],['uLook','look'],['uPersonality','personality'],['uExtra','extra'],['uRelations','relations']].forEach(([a,b])=>document.getElementById(a).value=u[b]||'')}
+document.getElementById('saveUser').onclick=()=>{Object.assign(state.user,{name:val('uName'),age:val('uAge'),gender:val('uGender'),look:val('uLook'),personality:val('uPersonality'),extra:val('uExtra'),relations:val('uRelations')});save();toast('유저 설정을 저장했어.')};
+
+function buildSystemPrompt(){
+ const c=state.characters.find(x=>x.id===document.getElementById('speakerSelect').value);
+ const u=state.user;
+ const worlds=state.worlds.map(w=>`[${w.type||'세계관'}: ${w.title||'제목 없음'}]\n${w.content||''}`).join('\n\n');
+ const char=c?`[연기할 캐릭터]\n이름: ${c.name}\n종류: ${c.type==='extra'?'엑스트라/NPC':'주요 캐릭터'}\n나이/성별: ${c.age||''}\n외모: ${c.look||''}\n성격: ${c.personality||''}\n말투/행동: ${c.voice||''}\n배경/목표: ${c.background||''}\n비밀/능력/소지품: ${c.secrets||''}\n관계: ${c.relations||''}`:'[캐릭터 미선택] 자연스러운 이야기 진행자 역할을 해.';
+ const extras=state.characters.filter(x=>x.id!==(c&&c.id)).map(x=>`${x.name} (${x.type==='extra'?'엑스트라':'캐릭터'}): 성격 ${x.personality||''}; 말투 ${x.voice||''}; 배경 ${x.background||''}; 관계 ${x.relations||''}`).join('\n');
+ return `너는 한국어 캐릭터 롤플레잉 소설의 공동 작가다. 유저의 행동이나 대사를 멋대로 결정하지 말고, 선택의 여지를 남겨라. 인물별 말투와 설정을 일관되게 유지하고, 세계관 설정을 존중하라. 설명만 반복하지 말고 장면, 대사, 행동을 자연스럽게 작성한다. 사용자가 별도 형식을 요구하지 않으면 과도하게 길지 않은 몰입감 있는 답변을 한다. 일반적인 허구 창작과 역할극 요청에는 불필요한 도덕 설교를 덧붙이지 않는다. 다만 안전상 제한되는 요청은 적절히 처리한다.
+[유저 프로필]\n이름: ${u.name||'미설정'}\n나이: ${u.age||''}\n성별/호칭: ${u.gender||''}\n외모: ${u.look||''}\n성격/말투: ${u.personality||''}\n배경/능력/소지품: ${u.extra||''}\n관계: ${u.relations||''}\n${char}\n[다른 등장인물]\n${extras||'추가 인물 없음'}\n[세계관 문서]\n${worlds||'세계관 문서 없음'}\n세계관 문서가 매우 길 수 있으므로 현재 메시지와 관련된 설정을 우선 활용하라. 유저가 설정과 다른 내용을 명시적으로 수정하면 최신 지시를 따른다.`;
+}
+function makeModelMessages(chat, beforeIndex=null){
+ const msgs=beforeIndex===null?chat.messages:chat.messages.slice(0,beforeIndex);
+ return [{role:'system',content:buildSystemPrompt()},...msgs.slice(-14).map(m=>({role:m.role==='assistant'?'assistant':'user',content:(m.name?m.name+': ':'')+m.text}))];
+}
+async function loadLocalModel(){
+ if(aiEngine||aiLoading)return;
+ if(!('gpu' in navigator)){toast('이 브라우저에서 WebGPU를 찾지 못했어. 최신 iOS Safari에서 시도해 봐.');document.getElementById('modelProgress').textContent='WebGPU를 사용할 수 없어 모델을 실행하지 못했어.';return}
+ aiLoading=true;loadAbort=false;renderStatus();document.getElementById('modelProgress').textContent='AI 엔진을 불러오는 중이야. 인터넷 연결을 유지해 줘.';
+ try{
+  const mod=await import('https://esm.run/@mlc-ai/web-llm');
+  if(loadAbort)throw new Error('사용자가 중지했어.');
+  const modelId='Qwen2.5-0.5B-Instruct-q4f16_1-MLC';
+  aiEngine=await mod.CreateMLCEngine(modelId,{initProgressCallback:(report)=>{const msg=report&&report.text?report.text:JSON.stringify(report);document.getElementById('modelProgress').textContent=msg; if(loadAbort)throw new Error('사용자가 중지했어.');}});
+  document.getElementById('modelProgress').textContent='모델 준비 완료! 이제 실제 AI 답변을 생성할 수 있어.';
+  toast('AI 모델 연결 완료');
+ }catch(e){aiEngine=null;document.getElementById('modelProgress').textContent='모델을 불러오지 못했어: '+(e&&e.message?e.message:String(e))+' · 페이지를 HTTPS 웹사이트로 열고, 저장 공간과 Safari의 WebGPU 지원을 확인해 줘.';toast('AI 모델 로딩 실패')}
+ finally{aiLoading=false;renderStatus()}
+}
+document.getElementById('loadModelBtn').onclick=loadLocalModel;
+document.getElementById('stopModelBtn').onclick=()=>{loadAbort=true;document.getElementById('modelProgress').textContent='중지를 요청했어. 현재 다운로드가 즉시 취소되지 않을 수도 있어.'};
+async function generateReply({replaceIndex=null}={}){
+ if(!aiEngine){toast('먼저 AI 모델을 불러와 줘.');return}
+ if(generationBusy)return;
+ const chat=currentChat();if(!chat)return;
+ const lastUserIndex=replaceIndex===null?chat.messages.length-1:replaceIndex-1;
+ const userMsg=chat.messages[lastUserIndex];
+ if(replaceIndex===null&&(!userMsg||userMsg.role!=='user')){toast('먼저 유저 메시지를 입력해 줘.');return}
+ generationBusy=true;renderStatus();
+ let placeholder=null;
+ try{
+  const base=replaceIndex===null?chat.messages:chat.messages.slice(0,replaceIndex);
+  const messages=[{role:'system',content:buildSystemPrompt()},...base.slice(-14).map(m=>({role:m.role==='assistant'?'assistant':'user',content:(m.name?m.name+': ':'')+m.text}))];
+  if(replaceIndex!==null && base.length && base[base.length-1].role==='assistant')messages.pop();
+  const res=await aiEngine.chat.completions.create({messages,temperature:0.85,top_p:0.9,max_tokens:400});
+  const answer=(res.choices?.[0]?.message?.content||'').trim();
+  if(!answer)throw new Error('모델이 빈 답변을 반환했어.');
+  const cName=state.characters.find(x=>x.id===document.getElementById('speakerSelect').value)?.name||'AI';
+  if(replaceIndex!==null){chat.messages.splice(replaceIndex,chat.messages.length-replaceIndex,{id:uid(),role:'assistant',name:cName,text:answer})}
+  else chat.messages.push({id:uid(),role:'assistant',name:cName,text:answer});
+  save();renderMessages();renderChatSelect();
+ }catch(e){toast('답변 생성 실패: '+(e?.message||'잠시 후 다시 시도해 줘.'))}
+ finally{generationBusy=false;renderStatus()}
+}
+document.getElementById('sendBtn').onclick=async()=>{const text=document.getElementById('messageInput').value.trim();if(!text)return;if(!aiEngine){toast('먼저 위에서 AI 모델을 불러와 줘.');return}ensureChat();const c=currentChat();c.messages.push({id:uid(),role:'user',name:state.user.name||'유저',text});if(c.messages.length===1)c.title=text.slice(0,26);document.getElementById('messageInput').value='';save();renderChatSelect();renderMessages();await generateReply()};
+
+document.getElementById('newChat').onclick=()=>{const c={id:uid(),title:'새 대화',messages:[],created:Date.now()};state.chats.unshift(c);state.currentChat=c.id;save();renderChatSelect();renderMessages()};
+document.getElementById('chatSelect').onchange=e=>{state.currentChat=e.target.value;save();renderMessages()};
+function editMessage(i){const m=currentChat().messages[i];modal('메시지 수정',`<label>화자 이름</label><input id="editName" value="${esc(m.name||'')}"><label>메시지 내용</label><textarea id="editText" style="min-height:180px">${esc(m.text)}</textarea><p class="small">수정한 지점 이후의 대화는 자동 삭제되지 않아. 필요하면 해당 메시지 이후를 따로 삭제할 수 있어.</p>`,[{text:'취소',fn:closeModal},{text:'저장',primary:true,fn:()=>{m.name=val('editName');m.text=val('editText');save();closeModal();renderMessages();toast('메시지를 수정했어.')}}])}
+function modal(title,body,buttons){const r=document.getElementById('modalRoot');r.innerHTML=`<div class="modalback" id="modalBack"><div class="modal"><h2>${esc(title)}</h2>${body}<div class="actions" id="modalActions"></div></div></div>`;document.getElementById('modalBack').onclick=e=>{if(e.target.id==='modalBack')closeModal()};const a=document.getElementById('modalActions');buttons.forEach(b=>{const x=document.createElement('button');x.textContent=b.text;if(b.primary)x.className='primary';x.onclick=b.fn;a.appendChild(x)})}
+function closeModal(){document.getElementById('modalRoot').innerHTML=''}
+document.getElementById('contextBtn').onclick=()=>{const c=state.characters.find(x=>x.id===document.getElementById('speakerSelect').value);const summary={유저:state.user,현재캐릭터:c||null,세계관문서:state.worlds.map(w=>({종류:w.type,제목:w.title,내용:w.content}))};modal('현재 설정 요약',`<textarea readonly style="min-height:45vh">${esc(JSON.stringify(summary,null,2))}</textarea><p class="small">이 요약은 현재 저장된 설정을 확인하기 위한 것이며, 아직 AI 모델에 자동 전송되지는 않아.</p>`,[{text:'닫기',primary:true,fn:closeModal}])};
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='world-chat-backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('백업 파일을 내보냈어.')}
+document.getElementById('exportBtn').onclick=exportData;document.getElementById('exportBtn2').onclick=exportData;
+document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!x||!Array.isArray(x.characters)||!Array.isArray(x.chats)||!Array.isArray(x.worlds))throw Error();state=x;save();selectedCharacter=null;selectedWorld=null;loadUser();renderAll();toast('백업을 가져왔어.')}catch{toast('백업 파일을 읽지 못했어. 올바른 JSON인지 확인해 줘.')}e.target.value=''};
+document.getElementById('clearAll').onclick=()=>{if(confirm('모든 인물, 세계관, 대화를 정말 삭제할까? 먼저 백업하는 걸 권장해.')){state=blank();selectedCharacter=null;selectedWorld=null;ensureChat();save();loadUser();renderAll();toast('데이터를 초기화했어.')}};
+function renderAll(){renderChatSelect();renderMessages();renderCharacters();renderWorlds();renderStatus()}
+ensureChat();loadUser();renderAll();
+</script>
+</body>
+</html>
